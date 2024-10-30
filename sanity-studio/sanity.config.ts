@@ -6,10 +6,8 @@ import {schemaTypes} from './schemaTypes'
 export default defineConfig({
   name: 'default',
   title: 'instagram',
-
   projectId: '8o6rjanl',
   dataset: 'production',
-
   plugins: [structureTool(), visionTool()],
 
   schema: {

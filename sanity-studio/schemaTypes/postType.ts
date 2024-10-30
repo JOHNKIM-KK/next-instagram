@@ -1,35 +1,36 @@
-import {Rule} from 'sanity'
+import {defineField, defineType, Rule} from 'sanity'
 
-export default {
+export const postType = defineType({
   title: 'Post',
   name: 'post',
   type: 'document',
   fields: [
-    {
+    defineField({
       title: 'Author',
       name: 'author',
       type: 'reference',
       to: [{type: 'user'}],
-    },
-    {
+    }),
+    defineField({
       title: 'Photo',
       name: 'photo',
       type: 'image',
-    },
-    {
+    }),
+    defineField({
       title: 'Likes',
       name: 'likes',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'user'}]}],
-      validation: (Rule: Rule) => Rule.unique(),
-    },
-    {
+      validation: (Rule) => Rule.unique(),
+    }),
+    defineField({
       title: 'Comments',
       name: 'comments',
       type: 'array',
       of: [
         {
           title: 'Comment',
+
           name: 'comment',
           type: 'document',
           fields: [
@@ -47,8 +48,8 @@ export default {
           ],
         },
       ],
-      validation: (Rule: Rule) => Rule.unique(),
-    },
+      validation: (Rule) => Rule.unique(),
+    }),
   ],
   preview: {
     select: {
@@ -57,7 +58,7 @@ export default {
       authorUsername: 'author.username',
       media: 'photo',
     },
-    prepare(selection: {title: string; authorName: string; authorUsername: string; media: string}) {
+    prepare(selection) {
       const {title, authorName, authorUsername, media} = selection
       return {
         title: title,
@@ -66,4 +67,4 @@ export default {
       }
     },
   },
-}
+})

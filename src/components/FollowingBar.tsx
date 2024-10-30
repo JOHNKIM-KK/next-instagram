@@ -8,18 +8,17 @@ import Avatar from "@/components/Avatar";
 import { ScrollableBar } from "@/components/ui/ScrollableBar";
 
 const FollowingBar = () => {
-  const { data, isLoading: loading, error } = useSWR<DetailUser>("/api/me");
-  // const users = data?.following;
-  // const users = undefined;
+  const { data, isLoading: loading } = useSWR<DetailUser>("/api/me");
   const users = data?.following && [
     ...data?.following,
     ...data?.following,
     ...data?.following,
   ];
+
   return (
     <section
       className={
-        "w-full flex justify-center items-center p-4 shadow-sm shadow-neutral-300 mb-4 rounded-lg min-h-[90px] overflow-x-auto"
+        "w-full flex justify-center items-center p-4 shadow-sm shadow-neutral-300 mb-4 rounded-lg min-h-[90px] overflow-x-auto relative z-0"
       }
     >
       {loading ? (

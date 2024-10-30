@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { getProviders } from "next-auth/react";
 import Signin from "@/components/Signin";
+import { authOptions } from "@/lib/authOptions";
 
 type Props = {
   searchParams: {

@@ -92,6 +92,8 @@ const mapPosts = (posts: SimplePost[]) => {
 };
 
 export const likePost = async (postId: string, userId: string) => {
+  // how to make client patch work no cache?
+
   return client
     .patch(postId)
     .setIfMissing({ likes: [] })

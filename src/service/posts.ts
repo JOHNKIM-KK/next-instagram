@@ -22,12 +22,7 @@ export const getFollowedPostsOf = async (username: string) => {
       ${simplePostProjection}
       }`,
     )
-    .then((posts) =>
-      posts.map((post: SimplePost) => ({
-        ...post,
-        image: urlFor(post.image),
-      })),
-    );
+    .then(mapPosts);
 };
 
 export const getPost = async (id: string) => {
@@ -45,4 +40,85 @@ export const getPost = async (id: string) => {
      }`,
     )
     .then((post) => ({ ...post, image: urlFor(post.image) }));
+};
+
+export const getPostsOf = async (username: string) => {
+  return client
+    .fetch(
+      `*[_type == "post" && author->username == "${username}"]
+    | order(_createdAt desc){
+     ${simplePostProjection}
+    }`,
+    )
+    .then(mapPosts);
+};
+
+export const getLikedPostsOf = async (username: string) => {
+  return client
+    .fetch(
+      `*[_type == "post" && "${username}" in likes[]->username]
+    | order(_createdAt desc){
+     ${simplePostProjection}
+    }`,
+      {},
+      {
+        cache: "no-cache",
+      },
+    )
+    .then(mapPosts);
+};
+
+export const getSavedPostsOf = async (username: string) => {
+  return client
+    .fetch(
+      `*[_type == "post" && _id in *[_type=="user" && username=="${username}"].bookmarks[]._ref]
+    | order(_createdAt desc){
+     ${simplePostProjection}
+    }`,
+      {},
+      {
+        cache: "no-cache",
+      },
+    )
+    .then(mapPosts);
+};
+
+const mapPosts = (posts: SimplePost[]) => {
+  return posts.map((post: SimplePost) => ({
+    ...post,
+    likes: post.likes ?? [],
+    image: urlFor(post.image),
+  }));
+};
+
+export const likePost = async (postId: string, userId: string) => {
+  return client
+    .patch(postId)
+    .setIfMissing({ likes: [] })
+    .append("likes", [{ _ref: userId, _type: "reference" }])
+    .commit({ autoGenerateArrayKeys: true });
+};
+
+export const dislikePost = async (postId: string, userId: string) => {
+  return client
+    .patch(postId)
+    .unset([`likes[_ref=="${userId}"]`])
+    .commit();
+};
+
+export const addComment = async (
+  postId: string,
+  userId: string,
+  comment: string,
+) => {
+  return client
+    .patch(postId)
+    .setIfMissing({ comments: [] })
+    .append("comments", [
+      {
+        comment,
+        author: { _ref: userId, _type: "reference" },
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
 };

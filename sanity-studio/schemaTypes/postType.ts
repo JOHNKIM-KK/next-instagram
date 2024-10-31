@@ -30,7 +30,6 @@ export const postType = defineType({
       of: [
         {
           title: 'Comment',
-
           name: 'comment',
           type: 'document',
           fields: [

@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
-import type { User } from "@/model/user";
+import type { AuthUser } from "@/model/authUser";
 import Avatar from "@/components/Avatar";
 
 type Props = {
-  user: User;
+  user: AuthUser;
 };
 const SideBar = ({ user: { name, username, image } }: Props) => {
   return (

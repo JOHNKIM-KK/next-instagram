@@ -1,4 +1,4 @@
-import { client, urlFor } from "@/service/sanity";
+import { assetsURL, client, urlFor } from "@/service/sanity";
 import type { SimplePost } from "@/model/post";
 
 const simplePostProjection = `
@@ -49,6 +49,10 @@ export const getPostsOf = async (username: string) => {
     | order(_createdAt desc){
      ${simplePostProjection}
     }`,
+      {},
+      {
+        cache: "no-cache",
+      },
     )
     .then(mapPosts);
 };
@@ -123,4 +127,33 @@ export const addComment = async (
       },
     ])
     .commit({ autoGenerateArrayKeys: true });
+};
+
+export const createPost = async (userId: string, text: string, file: Blob) => {
+  return fetch(assetsURL, {
+    method: "POST",
+    headers: {
+      "content-type": file.type,
+      authorization: `Bearer ${process.env.SANITY_SECRET_TOKEN}`,
+    },
+    body: file,
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      return client.create(
+        {
+          _type: "post",
+          author: { _ref: userId },
+          photo: { asset: { _ref: result.document._id } },
+          comments: [
+            {
+              comment: text,
+              author: { _ref: userId, _type: "reference" },
+            },
+          ],
+          likes: [],
+        },
+        { autoGenerateArrayKeys: true },
+      );
+    });
 };

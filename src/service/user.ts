@@ -1,5 +1,5 @@
 import { client } from "@/service/sanity";
-import type { HomeUser, SearchUser } from "@/model/authUser";
+import type { SearchUser } from "@/model/authUser";
 
 type OAuthUser = {
   id: string;

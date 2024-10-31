@@ -6,7 +6,7 @@ import { useMe } from "@/hooks/me";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { PulseLoader } from "react-spinners";
-import revalidateProfileUser from "@/action/action";
+// import revalidateProfileUser from "@/action/action";
 
 type Props = {
   user: ProfileUser;

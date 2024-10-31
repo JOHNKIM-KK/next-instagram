@@ -1,16 +1,9 @@
-import useSWR from "swr";
 import GridSpinner from "@/components/GridSpinner";
-import type { SimplePost } from "@/model/post";
 import PostGridCard from "@/components/PostGridCard";
+import { usePosts } from "@/hooks/posts";
 
-type Props = {
-  username: string;
-  query: string;
-};
-const PostGrid = ({ username, query }: Props) => {
-  const { data: posts, isLoading } = useSWR<SimplePost[]>(
-    `/api/users/${username}/${query}`,
-  );
+const PostGrid = () => {
+  const { posts, isLoading } = usePosts();
 
   return (
     <div className={"w-full text-center"}>

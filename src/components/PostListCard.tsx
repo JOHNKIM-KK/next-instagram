@@ -1,6 +1,6 @@
 "use client";
 
-import type { SimplePost, Comment } from "@/model/post";
+import type { Comment, SimplePost } from "@/model/post";
 import Image from "next/image";
 import ActionBar from "@/components/ActionBar";
 import { useState } from "react";
@@ -25,6 +25,7 @@ const PostListCard = ({ post, priority = false }: Props) => {
   return (
     <article className={"rounded-lg shadow-md border border-gray-200"}>
       <PostUserAvatar image={userImage} username={username} />
+
       <Image
         className={"w-full object-cover aspect-square"}
         src={image}

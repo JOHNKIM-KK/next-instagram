@@ -12,8 +12,6 @@ const PostGrid = ({ username, query }: Props) => {
     `/api/users/${username}/${query}`,
   );
 
-  console.log("mj: posts", posts);
-
   return (
     <div className={"w-full text-center"}>
       {isLoading && <GridSpinner />}

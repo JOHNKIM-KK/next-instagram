@@ -8,11 +8,7 @@ import { useMe } from "@/hooks/me";
 
 const FollowingBar = () => {
   const { user, isLoading: loading } = useMe();
-  const users = user?.following && [
-    ...user?.following,
-    ...user?.following,
-    ...user?.following,
-  ];
+  const users = user?.following && [];
 
   return (
     <section

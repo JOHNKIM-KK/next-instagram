@@ -1,4 +1,4 @@
-import {defineField, defineType, Rule} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export const postType = defineType({
   title: 'Post',

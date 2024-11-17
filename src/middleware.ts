@@ -1,3 +1,5 @@
+export { default } from "next-auth/middleware";
+
 import { type NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 

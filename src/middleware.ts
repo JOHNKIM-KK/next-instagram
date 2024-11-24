@@ -25,7 +25,7 @@ export const middleware = async (req: NextRequest) => {
   return NextResponse.next();
 };
 
-export const conifg = {
+export const config = {
   matcher: [
     "/new",
     "/",
